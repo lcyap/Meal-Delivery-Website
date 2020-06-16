@@ -1,0 +1,51 @@
+ <div class="hero-image2">
+  <div class="hero-text">
+    <h1>OUR MEAL PACKAGES</h1>
+    <h3>Our meal packages are thoughtfully crafted to cater to every individual. It is made fresh from when you order to ensure quality once it reaches your door.</h3>
+    
+  </div>
+</div>
+ <div class="container">
+     <div class="row">
+     <div class="col-md-3">
+         <img class="rounded-circle" src="seaf.jpg" style="width:80%;">
+     </div>
+     <div class="col-md-3">
+         <img class="rounded-circle" src="meat.jpg"  style="width:80%;">
+     </div>
+     <div class="col-md-3">
+         <img class="rounded-circle" src="katsu.jpg"  style="width:80%;">
+     </div>
+     <div class="col-md-3">
+         <img class="rounded-circle" src="veg.jpg"  style="width:80%;">
+     </div>
+ </div>
+ </div>
+ <div class="container">
+     <div class="row">
+         {{#each data}}
+         <div class="col-md-3">{{#strong}}{{this.title}}{{/strong}}</div>
+        {{/each}}  
+     </div>
+     <div class="row">
+         {{#each data}}
+         <div class="col-md-3">Price: {{this.price}}</div>
+        {{/each}}
+     </div>
+     <div class="row">
+         {{#each data}}
+         <div class="col-md-3">Meals Included: {{this.amount}}</div>
+        {{/each}}
+     </div>
+     <div class="row">
+         {{#each data}}
+         <div class="col-md-3">Category: {{this.category}}</div>
+        {{/each}}
+     </div>
+     <div class="row">
+         {{#each data}}
+         <div class="col-md-3">{{this.synopsis}}</div>
+        {{/each}}
+     </div>
+       
+ </div>

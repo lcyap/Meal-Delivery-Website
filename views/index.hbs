@@ -1,0 +1,97 @@
+ <!--HERO IMAGE--> 
+<div class="hero-image1">
+  <div class="hero-text">
+    <h1>NOODELIVERY</h1>
+    <h3>Noodles from our kitchen to yours!</h3>
+    <a href="/meals" class="btn btn-primary">OUR TOP MEAL PACKAGES</a>
+  </div>
+</div>
+  
+<div class="container">
+<div class="container" id="content">
+<div class="row">
+  <div class="column">
+    <div class="content">
+      <img class="img-responsive" src="choose.jpg" alt="Choose" style="width:87%">
+      <h3>Choose</h3>
+      <h5>Choose from our selection of meals</h5>
+    </div>
+  </div>
+  <div class="column">
+    <div class="content">
+      <img class="img-responsive"src="wait.jpg" alt="Wait" style="width:87%">
+      <h3>Wait</h3>
+      <h5>We will deliver your order in less than an hour</h5>
+    </div>
+  </div>
+  <div class="column">
+    <div class="content">
+      <img class="img-responsive"src="heat.jpg" alt="heat" style="width:87%">
+      <h3>Heat</h3>
+      <h5>It's best to enjoy it while it's hot</h5>
+    </div>
+  </div>
+  <div class="column">
+    <div class="content">
+      <img class="img-responsive" src="enjoy.jpg" alt="enjoy" style="width:87%">
+      <h3>Enjoy</h3>
+      <h5>Eat at comfort of you own space</h5>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="hero-image">
+  <div class="hero-text">
+    <h1>Our chefs are making these right now!</h1>
+    <p>We are not really making these but it sure look delicious!</p>
+  </div>
+</div>
+    
+<!--CONTENT (HOW IT WORKS) END-->
+<h3 class="contentheader"></h3>
+<div class="container" id="content">
+    <div class="row">
+  <div class="col-md-3">
+    <div class="content">
+      <img src="crab1.jpg" alt="crab" style="width:100%">
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="content">
+      <img src="pork1.jpg" alt="pork" style="width:100%">
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="content">
+      <img src="spicypork.jpg" alt="spicypork" style="width:100%">
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="content">
+      <img src="vegetarian.jpg" alt="vegetarian" style="width:100%">
+      
+    </div>
+  </div>
+</div>
+</div>
+
+    
+<!--Top Meal Packages GRID-->
+    <div class="container" id="topmeals">
+    <div class="row" style="font-size: large;">
+    {{#each data}}
+        {{#if this.available}}
+            <div class="col-md-3"> {{this.first}}</div>
+            <div class="col-md-3">{{this.second}}</div>
+            <div class="col-md-3">{{this.third}}</div>
+            <div class="col-md-3">{{this.fourth}}</div>
+        {{/if}}
+    {{else}}
+        <div class="col-md-12" style="text-align: center;">There was no data Retrieved. </div>
+    {{/each}}
+    </div>
+    </div>
+<!--END-->
+

@@ -1,0 +1,130 @@
+*{
+    font-family: 'Josefin Sans', sans-serif;
+    
+}
+body, html {
+    height: 100%;
+}
+/*HERO IMAGE TOP*/
+.hero-image1 {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("heroo.jpg");
+    height: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.btn.btn-primary{
+    background-color: brown;
+    border-color: brown;
+}
+.btn.btn-primary:hover{
+    background-color: rgb(202, 52, 52);
+    border-color: rgb(202, 52, 52);
+}
+.btn.btn-primary:active{
+    background-color: rgb(202, 52, 52);
+    border-color: rgb(202, 52, 52);
+}
+/*NAVBAR*/
+.navbar{
+    background-color: rgb(173, 15, 47);
+    
+}
+.nav-link{
+    color:rgb(247, 240, 240);
+    font-size: x-large;
+    font-family: 'Quicksand', sans-serif;
+}
+.nav-link:hover{
+    color:rgba(247, 240, 240, 0.459);
+}
+.sl{
+    font-family: 'Quicksand', sans-serif;
+    font-size: medium;
+}
+/*content*/
+.row {
+    margin: 8px -16px;
+  }
+.row,
+.row > .column {
+  padding: 8px;
+}
+
+.column {
+  float: left;
+  width: 25%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+@media screen and (max-width: 900px) {
+  .column {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+h3, h5{
+    text-align: center;
+}
+#content h3{
+    font-family: 'Josefin Sans', sans-serif;
+}
+#content img{
+    width: 200px; 
+    height: 200px;
+    object-fit: cover;
+}
+.contentheader{
+    text-align: center;
+    font-family: 'Josefin Sans', sans-serif;
+}
+#topmeals {
+   text-align: center;
+}
+
+.hero-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("heroimg.jpg");
+    height: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
+  footer {
+      text-align: left;
+      background-color: rgb(153, 16, 43);
+      color: white;
+  }
+  footer a{
+      color:white;
+  }
+  footer a:hover{
+    color:white;
+}
+.hero-image2 {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("kitchen.jpg");
+    height: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
