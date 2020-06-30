@@ -14,7 +14,9 @@ var meal = [{
 }];
 
 var mealpackage = [{
+ 
   title : "Seafood Package",
+  image: "seaf.jpg",
   price: "24.99",
   category: "Vegetarian",
   amount: "3",
@@ -23,6 +25,7 @@ var mealpackage = [{
 },
 {
   title : "Meat Lovers",
+  image: "meat.jpg",
   price: "29.99",
   category: "Meat",
   amount: "3",
@@ -31,6 +34,7 @@ var mealpackage = [{
 },
 {
   title : "Katsudon Package",
+  image: "katsu.jpg",
   price: "29.99",
   category: "Meat",
   amount: "3",
@@ -39,6 +43,7 @@ var mealpackage = [{
 },
 {
   title : "Vegetarian Package",
+  image: "veg.jpg",
   price: "24.99",
   category: "Vegetarian",
   amount: "3",
@@ -52,3 +57,31 @@ module.exports.getData1 = function(){
   return mealpackage;
 };
 
+module.exports.login = (body)=>{
+  
+  return new Promise((resolve, reject)=>{
+    
+    if(body.email == "" ){
+        console.log("error: enter an email");
+       
+        reject("no email");
+        
+        return;
+
+    }
+    else if(body.password == ""){
+      console.log("error: enter a password");
+      
+      reject("no password");
+      
+      return;
+    }
+    else{
+        //console.log( `${body.email}`);
+        resolve();
+        return;
+      }
+      
+  });
+  
+}

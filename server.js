@@ -17,14 +17,21 @@ helpers: {
     strong: function(options){
       return '<strong>' + options.fn(this) + '</strong>';
     },
-    list: function(context, options ){
-      var ret ="<ol>";
-      for (var i =0; i < context.length; i++){
-        ret += "<li> " + options.fn(context[i]) +"</li>";
-      } 
-      return ret+="</ol>";
-    }
+    grouped_each: function(every, context, options) {
+      var out = "", subcontext = [], i;
+      if (context && context.length > 0) {
+          for (i = 0; i < context.length; i++) {
+              if (i > 0 && i % every === 0) {
+                  out += options.fn(subcontext);
+                  subcontext = [];
+              }
+              subcontext.push(context[i]);
+          }
+          out += options.fn(subcontext);
+      }
+      return out;
   } 
+}
 })
 ); 
 app.set("view engine", ".hbs");
@@ -42,9 +49,40 @@ app.get("/meals", (req,res)=>{
   res.render("meals", { data : ourData});
 
 });
+app.get("/login", (req,res)=>{
+  res.render("login");
+})
+//form
+app.post("/testform", (req, res) =>{
+  // ds.validator(req.body).then(()=>{
+  //   ds.storePerson(req.body).then(()=>{
+  //     res.redirect("/profile");
+  //   })
+  // }).catch((errmessage)=>{
+  //   //var resObj={data:req.body};
+  //   //resObj = {append a message here}
+  //   res.render("/registration", {message:errmessage}); 
+ //})
+ 
+ds.login(req.body).then(()=>{
+   res.redirect("/");
+}).catch((error)=>{
+  res.render("login", {message: error});
+})
+ //console.log(`we received ${req.body.email}`);
+
+})
+//{message: req.body} // dont clear form
+//if validoatpr rejects anything in the 
+//("error with user name") gets passed into message
+//errmessage is what is passed from rejects
+//message gets passed into hbs
 
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
 });
 
 app.listen(HTTP_PORT, onHttpStart);
+
+//BLOG POST
+//https://noodelivery.wordpress.com/

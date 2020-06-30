@@ -6,46 +6,25 @@
   </div>
 </div>
  <div class="container">
-     <div class="row">
-     <div class="col-md-3">
-         <img class="rounded-circle" src="seaf.jpg" style="width:80%;">
-     </div>
-     <div class="col-md-3">
-         <img class="rounded-circle" src="meat.jpg"  style="width:80%;">
-     </div>
-     <div class="col-md-3">
-         <img class="rounded-circle" src="katsu.jpg"  style="width:80%;">
-     </div>
-     <div class="col-md-3">
-         <img class="rounded-circle" src="veg.jpg"  style="width:80%;">
-     </div>
+     
+<div class="row">
+    {{#grouped_each 1 data}}
+  <div class="col-md-3 item">
+    {{#each this }}
+     <img class="rounded-circle" src={{{image}}}  style="width:80%;"><br>
+        <strong>{{title}}</strong><br>
+        Price: CA${{price}}<br>
+        Category: {{category}}<br>
+        Meals Included: {{amount}}<br>
+        {{synopsis}}
+      
+    {{/each}}
+  </div>
+{{/grouped_each}}
+</div>
+
+   
  </div>
- </div>
- <div class="container">
-     <div class="row">
-         {{#each data}}
-         <div class="col-md-3">{{#strong}}{{this.title}}{{/strong}}</div>
-        {{/each}}  
-     </div>
-     <div class="row">
-         {{#each data}}
-         <div class="col-md-3">Price: {{this.price}}</div>
-        {{/each}}
-     </div>
-     <div class="row">
-         {{#each data}}
-         <div class="col-md-3">Meals Included: {{this.amount}}</div>
-        {{/each}}
-     </div>
-     <div class="row">
-         {{#each data}}
-         <div class="col-md-3">Category: {{this.category}}</div>
-        {{/each}}
-     </div>
-     <div class="row">
-         {{#each data}}
-         <div class="col-md-3">{{this.synopsis}}</div>
-        {{/each}}
-     </div>
-       
- </div>
+                
+    
+     
