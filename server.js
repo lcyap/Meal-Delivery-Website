@@ -84,19 +84,18 @@ app.post("/registerform", (req, res) =>{
 ds.registerpword(req.body).then((data)=>{
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    service: 'gmail',
     auth: {
-        user: 'kaya.parker16@ethereal.email',
-        pass: 'rs5nZbqtThXskKQVnk'
+        user: 'noodeliveryapp@gmail.com',
+        pass: 'Noodles1.'
     }
 });
   
   var mailOptions = {
-    from: 'kaya.parker16@ethereal.email',
+    from: 'noodeliveryapp@gmail.com',
     to: req.body.email,
     subject: 'Welcome to Noodelivery!',
-    html: '<h3>Thank you for signing up with Noodelivery!</h3> <p>Click <a href="url">here</a> to go to your dashboard page</p>'
+    html: '<h3>Thank you for signing up with Noodelivery!</h3> <p>Click <a href="https://floating-atoll-61832.herokuapp.com/dashboard">here</a> to go to your dashboard page</p>'
   };
   
   transporter.sendMail(mailOptions, function(error, info){
@@ -123,5 +122,8 @@ app.use((req, res) => {
 
 app.listen(HTTP_PORT, onHttpStart);
 
-//BLOG POST
-//https://noodelivery.wordpress.com/
+//HEROKU LINK
+//https://floating-atoll-61832.herokuapp.com/
+
+//GITHUB LINK
+//https://github.com/lcyap/WEB322-A2

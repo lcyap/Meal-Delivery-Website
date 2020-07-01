@@ -53,45 +53,20 @@
 <!--CONTENT (HOW IT WORKS) END-->
 
 <!--Top Meal Packages GRID-->
-<h3 class="contentheader"></h3>
-<div class="container" id="content">
-    <div class="row">
-  <div class="col-md-3">
-    <div class="content">
-      <img src="crab1.jpg" alt="crab" style="width:100%">
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="content">
-      <img src="pork1.jpg" alt="pork" style="width:100%">
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="content">
-      <img src="spicypork.jpg" alt="spicypork" style="width:100%">
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="content">
-      <img src="vegetarian.jpg" alt="vegetarian" style="width:100%">
-      
-    </div>
-  </div>
-</div>
-</div>  
+
   <div class="container" id="topmeals">
-    <div class="row" style="font-size: large;">
-    {{#each data}}
-        {{#if this.available}}
-            <div class="col-md-3"> {{this.first}}</div>
-            <div class="col-md-3">{{this.second}}</div>
-            <div class="col-md-3">{{this.third}}</div>
-            <div class="col-md-3">{{this.fourth}}</div>
-        {{/if}}
-    {{else}}
-        <div class="col-md-12" style="text-align: center;">There was no data Retrieved. </div>
+    <div class="row">
+    {{#grouped_each 1 data}}
+  <div class="col-md-3 item">
+    {{#each this }}
+     <img src={{{image}}}  style="width:100%;"><br>
+        <strong>{{title}}</strong><br>
+        Price: CA${{price}}<br>
+      
     {{/each}}
-    </div>
+  </div>
+{{/grouped_each}}
+</div>
     </div>
 <!--Top Meal Packages end-->
 

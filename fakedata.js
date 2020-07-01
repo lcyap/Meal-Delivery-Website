@@ -1,16 +1,23 @@
 var meal = [{
-  first : "Crab Yakisoba",
-  second: "Grilled Pork",
-  third: "Spicy Beef",
-  fourth: "Vegetarian",
-  available: true
+  title : "Crab Yakisoba",
+  price: "6.99",
+  image: "crab1.jpg"
+  
 },
 {
-  first : "7.99",
-  second: "9.99",
-  third: "9.99",
-  fourth: "7.99",
-  available: true
+  title: "Grilled Pork",
+  price: "7.99",
+  image: "pork1.jpg"
+},
+{
+  title: "Spicy Beef",
+  price: "7.99",
+  image: "spicypork.jpg"
+},
+{
+  title: "Vegetarian",
+  price: "5.99",
+  image: "vegetarian.jpg"
 }];
 
 var mealpackage = [{
@@ -58,26 +65,18 @@ module.exports.getData1 = function(){
 };
 
 module.exports.login = (body)=>{
-  
   return new Promise((resolve, reject)=>{
-    
     if(body.email == "" ){
         console.log("error: enter an email");
-       
         reject("no email");
-        
         return;
-
     }
     else if(body.password == ""){
       console.log("error: enter a password");
-      
       reject("no password");
-      
       return;
     }
     else{
-        //console.log( `${body.email}`);
         resolve();
         return;
       }
@@ -108,7 +107,6 @@ module.exports.registerpword = (body)=>{
       return;
     }
     else if(body.password.length <6 || body.password.length >12){
-        //console.log( `${body.email}`);
         reject("Password must be 6-12 characters in length");
         return;
     }
