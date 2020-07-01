@@ -1,0 +1,39 @@
+
+<div class="container">
+   
+    <h3 style="padding-top: 30px;">Register</h3>
+     <div class="justify-content-center">
+    
+      
+   
+
+<form action ="/registerform" method = "POST" >
+    <div >
+          <i class="fas fa-user prefix grey-text"></i>
+
+          <input type="text" class="form-control" name="name" id="name" {{#if message}} value="{{data.name}}" {{/if}}>
+          <label for="name">Your name
+              {{#hide data}}{{#if data.name}} {{else}} This field is required{{/if}}{{/hide}}
+          </label>
+    </div>
+    <div >
+         <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="email" class="form-control" name="email" id="email" {{#if message}} value="{{data.email}}" {{/if}}>
+          <label for="email">Your email
+               {{#hide data}}{{#if data.email}} {{else}}This field is required{{/if}}{{/hide}}
+          </label>
+     </div>
+     <div>
+         <i class="fas fa-lock prefix grey-text"></i>
+          <input type="password" class="form-control" name="password" id="password"  {{#if message}} value="{{data.password}}" {{/if}}>
+          <label for="password">Your password
+              <p style="color: red;">{{#if message}} {{message}}{{/if}}</p>
+          </label>
+     </div>
+     
+     <p style="color:saddlebrown;"></p> 
+        <button type="submit" class="loginbutton">Register</button>
+      
+       </form>
+       </div>
+</div>
