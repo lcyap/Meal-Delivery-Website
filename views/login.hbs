@@ -1,23 +1,29 @@
 
 <div class="container">
-{{#if message}} invalid: {{message}}{{/if}}
-<form action ="/testform" method = "POST" >
-    <div class="md-form mb-5">
+   
+    <h3 style="padding-top: 30px;">Login Information</h3>
+     <div class="justify-content-center">
+    
+      
+   
+
+<form action ="/loginform" method = "POST" >
+    <div >
           <i class="fas fa-envelope prefix grey-text"></i>
           <input type="email" class="form-control" name="email" id="email">
           <label for="email">Your email
              
           </label>
     </div>
-    <div class="md-form mb-4">
+    <div >
           <i class="fas fa-lock prefix grey-text"></i>
           <input type="password" class="form-control" name="password" id="password">
           <label for="password">Your password
             
           </label>
      </div>
-    
-        <button type="submit" class="btn btn-default">Login</button>
+     <p style="color: red;">{{#if message}} Fields must not be blank{{/if}}</p> 
+        <button type="submit" class="loginbutton">Login</button>
        </form>
-       
+       </div>
 </div>

@@ -84,4 +84,27 @@ module.exports.login = (body)=>{
       
   });
   
+};
+
+
+module.exports.registerpword = (body)=>{ 
+  var regexpword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+  return new Promise((resolve, reject)=>{   
+    if(body.password == ""){
+        //console.log("error: enter an email");   
+        reject("Field required");       
+        return;
+    }
+    else if(body.password.length <6 || body.password.length >12){
+        //console.log( `${body.email}`);
+        reject("Password must be 6-12 characters in length");
+        return;
+    }
+    else if(!body.password.match(regexpword) ){
+      reject("Password must have at least at least one numeric digit, one uppercase and one lowercase letter");
+    }
+    else{
+      resolve();
+    }
+  });
 }

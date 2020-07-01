@@ -31,6 +31,18 @@ body, html {
     background-color: rgb(202, 52, 52);
     border-color: rgb(202, 52, 52);
 }
+.loginbutton{
+    border-radius: 12px;
+    transition-duration: 0.4s;
+    border: 2px solid #8d2b33;
+    background-color: white;
+    color: black;
+    margin-bottom: 30px;
+}
+.loginbutton:hover{
+    background-color: rgb(177, 74, 74);
+}
+
 /*NAVBAR*/
 .navbar{
     background-color: rgb(173, 15, 47);

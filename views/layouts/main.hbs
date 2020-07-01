@@ -19,6 +19,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  
   </head>
   <body>
 <!--HEADER NAV BAR-->
@@ -47,7 +48,7 @@
 
     <ul class="nav navbar-nav ml-auto" >
       <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#signupform" href="#" style="font-size: medium;"><span class="fas fa-user"></span> Sign Up</a>
+        <a class="nav-link" href="/register" style="font-size: medium;"><span class="fas fa-user"></span> Sign Up</a>
       </li>
       <li class="nav-item">
         <a  href="/login" class="nav-link" style="font-size: medium;"><span class="fas fa-sign-in-alt"></span> Login</a>
@@ -58,75 +59,7 @@
 </nav>
 <!--HEADER END-->
 
-<!--SIGNUPLOGIN-->
-{{!-- <form action ="/" method = "POST" >
 
-
-<div class="modal fade" id="loginform" role="dialog" {{#if message}} style="display: block;" {{/if}}>
-  
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Log in</h4>
-        <button type="button" class="close">
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <i class="fas fa-envelope prefix grey-text"></i>
-          <input type="email" class="form-control" name="email" id="email">
-          <label for="email">Your email
-           {{#if message}} invalid
-           {{/if}}
-          </label>
-        </div>
-        <div class="md-form mb-4">
-          <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" class="form-control" name="password" id="password">
-          <label for="password">Your password</label>
-        </div>
-
-      </div>
-      <div class="modal-footer d-flex justify-content-center">
-        <button type="submit" class="btn btn-default">Login</button>
-      </div>
-    </div>
-  </div>
-</div>
-</form> --}}
-<div class="modal fade" id="signupform">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Register</h4>
-        <button type="button" class="close">
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <i class="fas fa-user prefix grey-text"></i>
-          <input type="text" class="form-control">
-          <label>Your name</label>
-        </div>
-        <div class="md-form mb-5">
-          <i class="fas fa-envelope prefix grey-text"></i>
-          <input type="email"class="form-control">
-          <label>Your email</label>
-        </div>
-
-        <div class="md-form mb-4">
-          <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" class="form-control">
-          <label>Your password</label>
-        </div>
-
-      </div>
-      <div class="modal-footer d-flex justify-content-center">
-        <button class="btn">Sign up</button>
-      </div>
-    </div>
-  </div>
-</div>
       
 {{{body}}} 
 

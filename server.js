@@ -30,6 +30,15 @@ helpers: {
           out += options.fn(subcontext);
       }
       return out;
+  },
+  hide: function(context, options){
+    if (!context){
+      return '<p style="display:none; ">' + options.fn(this) + '</p>';
+    }
+    else{
+      return '<p style="display:block; color: red;">' + options.fn(this) + '</p>'
+    }
+
   } 
 }
 })
@@ -52,8 +61,12 @@ app.get("/meals", (req,res)=>{
 app.get("/login", (req,res)=>{
   res.render("login");
 })
+app.get("/register", (req,res)=>{
+ // var hideError = ds.hideerror();
+  res.render("register");
+})
 //form
-app.post("/testform", (req, res) =>{
+app.post("/loginform", (req, res) =>{
   // ds.validator(req.body).then(()=>{
   //   ds.storePerson(req.body).then(()=>{
   //     res.redirect("/profile");
@@ -78,6 +91,15 @@ ds.login(req.body).then(()=>{
 //errmessage is what is passed from rejects
 //message gets passed into hbs
 
+app.post("/registerform", (req, res) =>{
+ds.registerpword(req.body).then((data)=>{
+   res.render("register", {data: req.body});
+}).catch((error, info)=>{
+  res.render("register", {message: error, data:req.body});
+})
+ 
+
+})
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
 });
