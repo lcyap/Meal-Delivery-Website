@@ -10,19 +10,19 @@
 <form action ="/loginform" method = "POST" >
     <div >
           <i class="fas fa-envelope prefix grey-text"></i>
-          <input type="email" class="form-control" name="email" id="email">
+          <input type="email" class="form-control" name="email" id="email"{{#if message}} value="{{data.email}}{{/if}}">
           <label for="email">Your email
-             
+              {{#hide data}}{{#if data.email}} {{else}}Field is required{{/if}}{{/hide}}
           </label>
     </div>
     <div >
           <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" class="form-control" name="password" id="password">
+          <input type="password" class="form-control" name="password" id="password" {{#if message}} value="{{data.password}}{{/if}}">
           <label for="password">Your password
-            
+             {{#hide data}}{{#if data.password}} {{else}}Field is required{{/if}}{{/hide}}
           </label>
      </div>
-     <p style="color: red;">{{#if message}} Fields must not be blank{{/if}}</p> 
+     
         <button type="submit" class="loginbutton">Login</button>
        </form>
        </div>

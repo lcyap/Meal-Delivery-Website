@@ -5,7 +5,7 @@ const ds = require("./fakedata.js");
 const exphbs = require("express-handlebars");
 const bodyParser = require('body-parser');
 const HTTP_PORT = process.env.PORT || 8080;
-
+var nodemailer = require('nodemailer');
 
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
@@ -48,7 +48,7 @@ app.set("view engine", ".hbs");
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//for fakedata.js
+
 app.get("/", (req, res)=>{
   var ourData = ds.getData();
   res.render("index", { data : ourData});
@@ -62,44 +62,61 @@ app.get("/login", (req,res)=>{
   res.render("login");
 })
 app.get("/register", (req,res)=>{
- // var hideError = ds.hideerror();
   res.render("register");
 })
-//form
+app.get("/dashboard", (req,res)=>{
+  res.render("dashboard");
+})
+app.get("/thankyou", (req,res)=>{
+  res.render("thankyou");
+})
+//form login
 app.post("/loginform", (req, res) =>{
-  // ds.validator(req.body).then(()=>{
-  //   ds.storePerson(req.body).then(()=>{
-  //     res.redirect("/profile");
-  //   })
-  // }).catch((errmessage)=>{
-  //   //var resObj={data:req.body};
-  //   //resObj = {append a message here}
-  //   res.render("/registration", {message:errmessage}); 
- //})
- 
-ds.login(req.body).then(()=>{
-   res.redirect("/");
-}).catch((error)=>{
-  res.render("login", {message: error});
+  ds.login(req.body).then(()=>{
+   res.redirect("dashboard");
+}).catch((error,info)=>{
+  res.render("login",  {message: error, data:req.body});
 })
- //console.log(`we received ${req.body.email}`);
 
 })
-//{message: req.body} // dont clear form
-//if validoatpr rejects anything in the 
-//("error with user name") gets passed into message
-//errmessage is what is passed from rejects
-//message gets passed into hbs
-
+//form register
 app.post("/registerform", (req, res) =>{
 ds.registerpword(req.body).then((data)=>{
-   res.render("register", {data: req.body});
+
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+        user: 'kaya.parker16@ethereal.email',
+        pass: 'rs5nZbqtThXskKQVnk'
+    }
+});
+  
+  var mailOptions = {
+    from: 'kaya.parker16@ethereal.email',
+    to: req.body.email,
+    subject: 'Welcome to Noodelivery!',
+    html: '<h3>Thank you for signing up with Noodelivery!</h3> <p>Click <a href="url">here</a> to go to your dashboard page</p>'
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+   res.render("thankyou", {data: req.body});
+
 }).catch((error, info)=>{
   res.render("register", {message: error, data:req.body});
 })
  
 
 })
+
+
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
 });

@@ -95,6 +95,18 @@ module.exports.registerpword = (body)=>{
         reject("Field required");       
         return;
     }
+    else if(body.email == ""){
+      reject("Field required");
+      return;
+    }
+    else if(body.firstname == ""){
+      reject("Field required");
+      return;
+    }
+    else if(body.lastname == ""){
+      reject("Field required");
+      return;
+    }
     else if(body.password.length <6 || body.password.length >12){
         //console.log( `${body.email}`);
         reject("Password must be 6-12 characters in length");
