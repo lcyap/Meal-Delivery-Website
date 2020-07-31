@@ -10,12 +10,6 @@ let userSchema = new Schema({
     },
     password: String
 });
-//data manager
-
-
-
-
-
 
 
 
@@ -28,9 +22,7 @@ module.exports.initialize = function(){
       });
       
       db.once('open', ()=>{
-          //create a collection called "newusers"'
         User = db.model("newusers", userSchema);
-        //console.log("db success!");
         resolve();
       });
     })
@@ -38,14 +30,11 @@ module.exports.initialize = function(){
 
 module.exports.registerUser = function(data){
     return new Promise((resolve, reject)=>{
-        //check UNIQUE email! ?????????
-
         var newUser = new User(data);
         //hash pword
-        bcrypt.genSalt(10)  // Generate a "salt" using 10 rounds
-        .then(salt=>bcrypt.hash(newUser.password,salt)) // use the generated "salt" to encrypt the password: "myPassword123"
-        .then(hash=>{ //returns encrypted password
-            // TODO: Store the resulting "hash" value in the DB
+        bcrypt.genSalt(10)  
+        .then(salt=>bcrypt.hash(newUser.password,salt)) 
+        .then(hash=>{ 
             newUser.password=hash;
         newUser.save((err)=>{
             if(err){
@@ -57,12 +46,12 @@ module.exports.registerUser = function(data){
             }
             else{
                 resolve();
-                //console.log("Saved user: " + data.firstname);
+               
             }
         });
     })
     .catch(err=>{
-        console.log(err); // Show any errors that occurred during the process
+        console.log(err); 
         reject("Hashing Error");
     });
 
@@ -72,10 +61,9 @@ module.exports.registerUser = function(data){
 //MAYBE DELETE THIS
 module.exports.LoginUser = function(){
     return new Promise((resolve,reject)=>{
-        User.find() //gets all and returns an array. Even if 1 or less entries
-        .exec() //tells mongoose that we should run this find as a promise.
+        User.find() 
+        .exec() 
         .then((returnedUser)=>{
-            //resolve(filteredMongoose(returnedStudents));
             resolve(returnedUser.map(item=>item.toObject()));
         }).catch((err)=>{
                 console.log("Error Retriving User:"+err);
@@ -85,12 +73,11 @@ module.exports.LoginUser = function(){
 }
 module.exports.LoginUserEmail = function(inEmail){
     return new Promise((resolve,reject)=>{
-        //email has to be spelled the same as in the data base
-        User.find({email: inEmail}) //gets all and returns an array. Even if 1 or less entries
-        .exec() //tells mongoose that we should run this find as a promise.
+        
+        User.find({email: inEmail}) 
+        .exec()
         .then((returnedUser)=>{
             if(returnedUser.length !=0 )
-            //resolve(filteredMongoose(returnedStudents));
                 resolve(returnedUser.map(item=>item.toObject()));
             else
                 reject("User does not exist");
@@ -104,20 +91,16 @@ module.exports.validateUser = (data)=>{
     return new Promise((resolve,reject)=>{
     if (data){
         this.LoginUserEmail(data.email).then((retUser)=>{
-            //get the data and check if passwords match hash
-                // first is non-hashed pw, vs 2nd which is a hashed pw
                 bcrypt.compare(data.password, retUser[0].password).then((result) => {
                     if (result){
-                        //for added security is return a student object w/o password
-                        resolve(retUser);
-                        //resolve and pass the user back
+                      resolve(retUser);
                     }
                     else{
-                        reject("mali password");
+                        reject("Wrong password");
                         return;
-                        //reject pass error
+                        
                     }
-                    // result === true
+                   
                 });
         }).catch((err)=>{
             reject(err);
