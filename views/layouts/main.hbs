@@ -50,9 +50,15 @@
       <li class="nav-item">
         <a class="nav-link" href="/register" style="font-size: medium;"><span class="fas fa-user"></span> Sign Up</a>
       </li>
+      {{#if session}}
+      <li class="nav-item">
+        <a  href="/logout" class="nav-link" style="font-size: medium;"><span class="fas fa-sign-in-alt"></span> Logout</a>
+      </li>
+      {{else}}
       <li class="nav-item">
         <a  href="/login" class="nav-link" style="font-size: medium;"><span class="fas fa-sign-in-alt"></span> Login</a>
       </li>
+      {{/if}}
     </ul>
   </div>
   </div>

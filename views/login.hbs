@@ -20,6 +20,7 @@
           <input type="password" class="form-control" name="password" id="password" {{#if message}} value="{{data.password}}{{/if}}">
           <label for="password">Your password
              {{#hide data}}{{#if data.password}} {{else}}Field is required{{/if}}{{/hide}}
+             {{#if message}} <p style="color: red;">Wrong password </p>{{/if}}
           </label>
      </div>
      
