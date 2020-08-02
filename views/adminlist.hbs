@@ -1,0 +1,21 @@
+<div class="container">
+ <h3 style="padding-top: 30px;">List of Meals</h3>
+<div class="row">
+    {{#grouped_each 1 data}}
+  <div class="col-md-3 item">
+    {{#each this }}
+     <img class="rounded-circle" src={{{img}}}  style="width:80%;"><br>
+        <strong>{{mealname}}</strong><br>
+        Price: CA${{mealprice}}<br>
+        Category: {{mealcategory}}<br>
+        Meals Included: {{mealnumber}}<br>
+        {{mealdescription}}<br>
+        Top Meal? {{#if topmeal}} Yes {{else}} No {{/if}}
+        <a href = "/edit?mealname={{mealname}}" class="btn btn-primary">Edit Meal</a>
+    {{/each}}
+  </div>
+{{/grouped_each}}
+</div>
+<a href = "/admindashboard" class="btn btn-primary">Back to Admin Dashboard</a>
+</div>
+

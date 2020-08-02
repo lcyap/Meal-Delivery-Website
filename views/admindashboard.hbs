@@ -1,7 +1,65 @@
  <div class="hero-image2">
   <div class="hero-text">
     <h1>WELCOME TO NOODELIVERY ADMIN DASHBOARD</h1>
-    <h3>Hi {{data.firstname}} {{data.lastname}}! </h3> 
+    <h3>Hi {{session.firstname}} {{session.lastname}}! </h3> 
  
   </div>
 </div>
+<div class="container">
+   
+    <h3 style="padding-top: 30px;">Create New Meal Package</h3>
+     <div class="justify-content-center">
+    
+      
+   
+
+<form action ="/newmealpackage" method = "POST" enctype="multipart/form-data">
+    <div >
+          <input type="text" class="form-control" name="mealname" id="mealname">
+          <label for="mealname">Meal Name
+          </label>
+    </div>
+    <div >
+          <input type="text" class="form-control" name="mealprice" id="mealprice">
+          <label for="mealprice">Meal Price</label>
+     </div>
+     <div >
+          <input type="text" class="form-control" name="mealdescription" id="mealdescription">
+          <label for="mealdescription">Meal Description</label>
+     </div>
+     <div >
+          <input type="text" class="form-control" name="mealcategory" id="mealcategory">
+          <label for="mealcategory">Meal Category</label>
+     </div>
+     <div >
+          <input type="text" class="form-control" name="mealnumber" id="mealnumber">
+          <label for="mealnumber">Number of Meals in a Package</label>
+     </div>
+     <div class="form-check">
+         <input class="form-check-input" type="checkbox" name="topmeal" id="topmeal" value="true">
+          <label class="form-check-label" for="topmeal">
+          Top Meal
+          </label>
+     </div>
+     <div>
+          <label for="photo">Upload Photo</label>
+          <input id="photo" type="file" name="photo"/><br />
+           </div>
+        <button type="submit" class="loginbutton">Submit</button>
+        
+       </form>
+       </div>
+       <a href="/adminlist" class="btn btn-primary">Edit Existing Meals</button> </a><br />
+</div>
+
+
+<!--a.	Meal Package name, 
+b.	Meal Package price, 
+c.	Meal Package description or details, 
+d.	Meal Package food category
+e.	The number of meals inside the package
+f.	Set Meal package as a top package to be shown on the home page(or not).
+g.	Upload a photo of the meal package(to keep the project simple, only upload one image per meal package).
+
+-->
+  

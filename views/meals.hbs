@@ -11,13 +11,13 @@
     {{#grouped_each 1 data}}
   <div class="col-md-3 item">
     {{#each this }}
-     <img class="rounded-circle" src={{{image}}}  style="width:80%;"><br>
-        <strong>{{title}}</strong><br>
-        Price: CA${{price}}<br>
-        Category: {{category}}<br>
-        Meals Included: {{amount}}<br>
-        {{synopsis}}
-      
+     <img class="rounded-circle" src={{{img}}}  style="width:80%;"><br>
+        <strong>{{mealname}}</strong><br>
+        Price: CA${{mealprice}}<br>
+        Category: {{mealcategory}}<br>
+        Meals Included: {{mealnumber}}<br>
+        {{mealdescription}}<br>
+       {{#if topmeal}} <p style="color:brown"><strong>TOP MEAL</strong></p>{{/if}}
     {{/each}}
   </div>
 {{/grouped_each}}

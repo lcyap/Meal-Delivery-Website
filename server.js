@@ -5,7 +5,11 @@
 //https://floating-atoll-61832.herokuapp.com/
 
 //GITHUB LINK
-//https://github.com/lcyap/WEB322-A2
+//https://github.com/lcyap/WEB322--Final-Assignment
+
+//Data Entry Info
+//email: noodeliverapp@gmail.com
+//password: password
 
 const express = require("express");
 const app = express();
@@ -16,7 +20,7 @@ const bodyParser = require('body-parser');
 const HTTP_PORT = process.env.PORT || 8080;
 var nodemailer = require('nodemailer');
 const clientSessions = require("client-sessions");
-
+const multer = require("multer");
 //A3
 const db = require("./db.js");
 
@@ -31,6 +35,31 @@ app.use(clientSessions({
   duration: 2 * 60 * 1000, 
   activeDuration: 1000 * 60 
 }));
+
+//A4 Multer storage for image
+const storage = multer.diskStorage({
+  destination: "./public",
+  filename: function (req, file, cb) {
+    // we write the filename as the current date down to the millisecond
+    // in a large web service this would possibly cause a problem if two people
+    // uploaded an image at the exact same time. A better way would be to use GUID's for filenames.
+    // this is a simple example.
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const imageFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    return cb(null, true);
+  } else {
+    return cb(new Error('Not an image! Please upload an image.', 400), false);
+  }
+};
+
+// tell multer to use the diskStorage function for naming files instead of the default.
+const upload = multer({ storage: storage, fileFilter: imageFilter });
+
+
+
 
 app.set("views", "./views");
 app.engine(".hbs", exphbs({ extname: ".hbs",
@@ -87,12 +116,19 @@ function ensureAdmin(req, res, next) {
 }
 
 app.get("/", (req, res)=>{
-  var ourData = ds.getData();
-  res.render("index", { data : ourData});
+  db.displayMeals().then((data1)=>{
+    res.render("index",{data: (data1.length!=0)?data1:undefined});
+  }).catch((err)=>{
+    res.render("index"); 
+  });
 });
+//A4 display from MongoDB
 app.get("/meals", (req,res)=>{
-  var ourData = ds.getData1();
-  res.render("meals", { data : ourData});
+  db.displayMeals().then((data1)=>{
+    res.render("meals",{data: (data1.length!=0)?data1:undefined});
+  }).catch((err)=>{
+    res.render("meals"); 
+  });
 
 });
 app.get("/login", (req,res)=>{
@@ -108,7 +144,7 @@ app.get("/dashboard",ensureLogin, (req,res)=>{
 })
 //admin dashboard
 app.get("/admindashboard",ensureAdmin, (req,res)=>{
-  res.render("admindashboard", {data:req.session.user});
+    res.render("admindashboard", {session: req.session.user});
 })
 
 
@@ -152,8 +188,8 @@ app.get("/logout",(req,res)=>{
 
 //form register
 app.post("/registerform", (req, res) =>{ 
-db.registerUser(req.body).then( //regex checks
-ds.registerpword(req.body)).then((data)=>{ //add to db
+db.registerUser(req.body).then( 
+ds.registerpword(req.body)).then((data)=>{ 
 
   const transporter = nodemailer.createTransport({ // send email confirmation
     service: 'gmail',
@@ -186,6 +222,53 @@ ds.registerpword(req.body)).then((data)=>{ //add to db
  
 
 })
+
+
+//A4 
+
+
+
+app.post("/newmealpackage", upload.single("photo"), (req, res)=>{
+  req.body.img = req.file.filename;
+  db.createMeal(req.body).then(()=>{
+    res.redirect("/admindashboard");
+  }).catch((err)=>{
+    console.log("Error adding meal: "+ err);
+    res.redirect("/admindashboard"); //passing an error message or the student object
+  }); 
+});
+// A4 EDIT MEAL
+app.get("/adminlist", ensureAdmin, (req,res)=>{
+  db.displayMeals().then((data1)=>{
+    res.render("adminlist",{data: (data1.length!=0)?data1:undefined, session:req.session.user});
+  }).catch((err)=>{
+    res.render("adminlist"); 
+  });
+
+})
+
+app.get("/edit",ensureAdmin, (req,res)=>{
+  if (req.query.mealname){ 
+    db.getMealbyName(req.query.mealname).then((meal)=>{
+      res.render("editmeals", {data:meal[0], session:req.session.user}); //using [0] because students is an array
+    }).catch(()=>{
+      console.log("couldn't find meal");
+      res.redirect("/");
+    });
+  }
+  else
+    res.redirect("/adminlist");
+});
+
+app.post("/editmeal",(req,res)=>{
+  db.editMeal(req.body).then(()=>{
+    console.log("Successfully edited")
+    res.redirect("/adminlist");
+  }).catch((err)=>{
+    console.log("error editing " + err);
+    res.redirect("/editmeals");
+  })
+});
 
 
 app.use((req, res) => {    

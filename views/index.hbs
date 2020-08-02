@@ -54,19 +54,20 @@
 
 <!--Top Meal Packages GRID-->
 
-  <div class="container" id="topmeals">
-    <div class="row">
-    {{#grouped_each 1 data}}
-  <div class="col-md-3 item">
-    {{#each this }}
-     <img src={{{image}}}  style="width:100%;"><br>
-        <strong>{{title}}</strong><br>
-        Price: CA${{price}}<br>
-      
-    {{/each}}
+<h3 style="padding-top: 30px;">OUR TOP MEALS</h3>
+<div class="row">
+  {{#each data}}
+  {{#if topmeal}}
+  <div class="col-md-3" style="text-align: center;">
+     <img class="img-fluid" src={{{img}}}  style="width:100%;"><br>
+        <strong>{{mealname}}</strong><br>
+        Price: CA${{mealprice}}<br>
+        
+        
   </div>
-{{/grouped_each}}
+  {{/if}}
+  {{/each}}
 </div>
-    </div>
+
 <!--Top Meal Packages end-->
 

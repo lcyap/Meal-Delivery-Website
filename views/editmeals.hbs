@@ -1,0 +1,41 @@
+<div class="container">
+   
+    <h3 style="padding-top: 30px;">Edit Meal Packages</h3>
+     <div class="justify-content-center">
+    
+      
+   
+
+<form action ="/editmeal" method = "POST">
+    <div >
+          <input type="text" class="form-control" name="mealname" id="mealname" value="{{data.mealname}}">
+          <label for="mealname">Meal Name
+          </label>
+    </div>
+    <div >
+          <input type="text" class="form-control" name="mealprice" id="mealprice" value="{{data.mealprice}}">
+          <label for="mealprice">Meal Price</label>
+     </div>
+     <div >
+          <input type="text" class="form-control" name="mealdescription" id="mealdescription" value="{{data.mealdescription}}">
+          <label for="mealdescription">Meal Description</label>
+     </div>
+     <div >
+          <input type="text" class="form-control" name="mealcategory" id="mealcategory"  value="{{data.mealcategory}}">
+          <label for="mealcategory">Meal Category</label>
+     </div>
+     <div >
+          <input type="text" class="form-control" name="mealnumber" id="mealnumber"  value="{{data.mealnumber}}">
+          <label for="mealnumber">Number of Meals in a Package</label>
+     </div>
+     <div class="form-check">
+         <input class="form-check-input" type="checkbox" name="topmeal" id="topmeal" value="true">
+          <label class="form-check-label" for="topmeal">
+          Top Meal
+          </label>
+     </div>
+     
+        <button type="submit" class="loginbutton">Save Changes</button>
+       </form>
+       </div>
+</div>
