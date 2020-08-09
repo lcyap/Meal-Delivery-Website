@@ -16,7 +16,7 @@
     "nodemailer": "^6.4.10"
   },
   "devDependencies": {
-    "handlebars": "^4.5.3"
+    "handlebars": "^4.7.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
