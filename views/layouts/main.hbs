@@ -44,6 +44,12 @@
       <li class="nav-item">
         <a class="nav-link" href="/meals">Meal Packages</a>
       </li>
+      {{#if session}}
+        
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard">Customer Dashboard</a>
+      </li>
+      {{/if}}
     </ul>
 
     <ul class="nav navbar-nav ml-auto" >
@@ -53,6 +59,9 @@
       {{#if session}}
       <li class="nav-item">
         <a  href="/logout" class="nav-link" style="font-size: medium;"><span class="fas fa-sign-in-alt"></span> Logout</a>
+      </li>
+      <li class="nav-item">
+        <a  href="/cart" class="nav-link" style="font-size: medium;"><span class="glyphicon glyphicon-shopping-cart"></span><i class="fas fa-shopping-cart"></i>Your Cart</a>
       </li>
       {{else}}
       <li class="nav-item">

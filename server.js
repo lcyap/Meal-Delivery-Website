@@ -7,15 +7,19 @@
 //GITHUB LINK
 //https://github.com/lcyap/WEB322--Final-Assignment
 
-//Data Entry Info
+//Data Entry Admin Info
 //email: noodeliverapp@gmail.com
 //password: password
+
+//all images are taken from unsplash.com
 
 const express = require("express");
 const app = express();
 const path = require("path");
 const ds = require("./fakedata.js");
 const exphbs = require("express-handlebars");
+const Handlebars = require('handlebars');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const bodyParser = require('body-parser');
 const HTTP_PORT = process.env.PORT || 8080;
 var nodemailer = require('nodemailer');
@@ -23,7 +27,8 @@ const clientSessions = require("client-sessions");
 const multer = require("multer");
 //A3
 const db = require("./db.js");
-
+//A5
+const mongoose = require("mongoose");
 
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
@@ -40,13 +45,11 @@ app.use(clientSessions({
 const storage = multer.diskStorage({
   destination: "./public",
   filename: function (req, file, cb) {
-    // we write the filename as the current date down to the millisecond
-    // in a large web service this would possibly cause a problem if two people
-    // uploaded an image at the exact same time. A better way would be to use GUID's for filenames.
-    // this is a simple example.
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
+
+//code from prof
 const imageFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
     return cb(null, true);
@@ -55,11 +58,7 @@ const imageFilter = (req, file, cb) => {
   }
 };
 
-// tell multer to use the diskStorage function for naming files instead of the default.
 const upload = multer({ storage: storage, fileFilter: imageFilter });
-
-
-
 
 app.set("views", "./views");
 app.engine(".hbs", exphbs({ extname: ".hbs",
@@ -90,7 +89,7 @@ helpers: {
     }
 
   } 
-}
+}, handlebars: allowInsecurePrototypeAccess(Handlebars)
 })
 ); 
 app.set("view engine", ".hbs");
@@ -117,15 +116,16 @@ function ensureAdmin(req, res, next) {
 
 app.get("/", (req, res)=>{
   db.displayMeals().then((data1)=>{
-    res.render("index",{data: (data1.length!=0)?data1:undefined});
+    res.render("index",{data: (data1.length!=0)?data1:undefined , session:req.session.user });
   }).catch((err)=>{
     res.render("index"); 
   });
 });
+
 //A4 display from MongoDB
 app.get("/meals", (req,res)=>{
   db.displayMeals().then((data1)=>{
-    res.render("meals",{data: (data1.length!=0)?data1:undefined});
+    res.render("meals",{data: data1, session:req.session.user, layout: false});
   }).catch((err)=>{
     res.render("meals"); 
   });
@@ -137,10 +137,11 @@ app.get("/login", (req,res)=>{
 app.get("/register", (req,res)=>{
   res.render("register");
 })
+
 //A3
 //user dashboard
 app.get("/dashboard",ensureLogin, (req,res)=>{
-  res.render("dashboard", {data:req.session.user});
+  res.render("dashboard", {data: req.session.user, session:req.session.user});
 })
 //admin dashboard
 app.get("/admindashboard",ensureAdmin, (req,res)=>{
@@ -188,46 +189,48 @@ app.get("/logout",(req,res)=>{
 
 //form register
 app.post("/registerform", (req, res) =>{ 
-db.registerUser(req.body).then( 
-ds.registerpword(req.body)).then((data)=>{ 
+  ds.registerpword(req.body)//regexchecks
+  .then((data)=>{
+    db.registerUser(req.body) //validates new user and hashes pword
+    .then((indata)=>{
+      req.session.user = indata;
+      //send email
+      console.log(req.session.user);
+      const transporter = nodemailer.createTransport({ // send email confirmation
+        service: 'gmail',
+        auth: {
+            user: 'noodeliveryapp@gmail.com',
+            pass: 'Noodles1.'
+        }
+      });
+      
+      var mailOptions = {
+        from: 'noodeliveryapp@gmail.com',
+        to: req.body.email,
+        subject: 'Welcome to Noodelivery!',
+        html: '<h3>Thank you for signing up with Noodelivery!</h3> <p>Click <a href="http://localhost:8080/dashboard">here</a> to go to your dashboard page</p>'
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+      
+      res.render("dashboard", {data: req.session.user, session: req.session.user});
 
-  const transporter = nodemailer.createTransport({ // send email confirmation
-    service: 'gmail',
-    auth: {
-        user: 'noodeliveryapp@gmail.com',
-        pass: 'Noodles1.'
-    }
-});
-  
-  var mailOptions = {
-    from: 'noodeliveryapp@gmail.com',
-    to: req.body.email,
-    subject: 'Welcome to Noodelivery!',
-    html: '<h3>Thank you for signing up with Noodelivery!</h3> <p>Click <a href="http://localhost:8080/dashboard">here</a> to go to your dashboard page</p>'
-  };
-  
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
+    }).catch((error)=>{
       console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
+    });
+  }).catch((error,data)=>{
+    res.render("register", {message: error, data:req.body});
   });
+});
 
-   res.render("dashboard", {data: req.body});
-
-}).catch((error, info)=>{
-  res.render("register", {message: error, data:req.body});
-})
- 
-
-})
-
-
-//A4 
-
-
-
+  
+//A4 ADD MEAL
 app.post("/newmealpackage", upload.single("photo"), (req, res)=>{
   req.body.img = req.file.filename;
   db.createMeal(req.body).then(()=>{
@@ -237,7 +240,7 @@ app.post("/newmealpackage", upload.single("photo"), (req, res)=>{
     res.redirect("/admindashboard"); //passing an error message or the student object
   }); 
 });
-// A4 EDIT MEAL
+//A4 EDIT MEAL
 app.get("/adminlist", ensureAdmin, (req,res)=>{
   db.displayMeals().then((data1)=>{
     res.render("adminlist",{data: (data1.length!=0)?data1:undefined, session:req.session.user});
@@ -246,7 +249,6 @@ app.get("/adminlist", ensureAdmin, (req,res)=>{
   });
 
 })
-
 app.get("/edit",ensureAdmin, (req,res)=>{
   if (req.query.mealname){ 
     db.getMealbyName(req.query.mealname).then((meal)=>{
@@ -259,7 +261,6 @@ app.get("/edit",ensureAdmin, (req,res)=>{
   else
     res.redirect("/adminlist");
 });
-
 app.post("/editmeal",(req,res)=>{
   db.editMeal(req.body).then(()=>{
     console.log("Successfully edited")
@@ -268,6 +269,91 @@ app.post("/editmeal",(req,res)=>{
     console.log("error editing " + err);
     res.redirect("/editmeals");
   })
+});
+
+//A5////////////////////
+app.use(bodyParser.json());
+
+//AJAX ADD PRODUCT from meals.hbs page
+app.post("/addProduct", (req,res)=>{
+  console.log("Adding meal with name: "+req.body.mealname);
+  db.getMealItem(req.body.mealname)
+  .then((item)=>{
+      db.addtoCart(item)
+      .then((mealsincart)=>{
+          res.json({data: mealsincart});
+      }).catch(()=>{
+          res.json({message:"error adding"});
+      })
+  }).catch(()=>{
+      res.json({message: "No Items found"})
+  })
+});
+
+//CART
+app.get("/cart",ensureLogin, (req,res)=>{
+  var cartData = {
+      cart:[],
+      sum:0,
+      
+  } ;
+  db.getCart().then((items)=>{
+      cartData.cart = items;
+      db.placeorder().then((sum)=>{
+          cartData.sum = sum;
+          cartData.cart.map(item=>item.toObject());
+          res.render("mealcart", {data:cartData, session: req.session.user});
+      }).catch((err)=>{
+          res.send("Error getting sum of meals" +err);
+      });
+  })
+  .catch((err)=>{
+      res.send("There was an error: " + err );
+  });
+});
+
+//Place Order
+app.get("/placeorder", ensureLogin, (req,res)=>{
+  db.getCart().then((cart)=>{
+    console.log("Placing order: " + cart);
+    //send email here
+    const transporter = nodemailer.createTransport({ // send order confirmation
+      service: 'gmail',
+      auth: {
+          user: 'noodeliveryapp@gmail.com',
+          pass: 'Noodles1.'
+      }
+     });
+     var sum= 0;
+     cart.forEach(x => {
+      sum += x.mealprice;
+      });
+     var content = cart.reduce(function(a, b) {
+      return a + '<tr><td>' + b.mealname + '</a></td><td>$' + b.mealprice + '</td></tr>';
+    }, '');
+      
+     var mailOptions = {
+      from: 'noodeliveryapp@gmail.com',
+      to: req.session.user.email,
+      subject: 'Welcome to Noodelivery!',
+      html: '<h3>Thank you for ordering with Noodelivery!</h3> <div><table><thead><tr><th>Meal Name</th><th>Meal Price</th></tr></thead><tbody>' + content + '</tbody></table><p>Total Price: $' + sum + '</div>'
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    //clear cart here
+     db.clearCart();
+    res.render("placeorder", {session: req.session.user});
+  }).catch((err)=>{
+    console.log("error placing order" + err);
+  });
+  
+ 
+
 });
 
 

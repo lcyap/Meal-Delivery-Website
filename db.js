@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 //A4
 let mealSchema = new Schema({
     mealname: String,
-    mealprice: String,
+    mealprice: Number,
     mealdescription: String,
     mealcategory: String,
     mealnumber: String,
@@ -50,14 +50,11 @@ module.exports.createMeal = function(data){
         var newMeal = new Meal(data); 
         newMeal.save((err)=>{
             if(err){
-                
-                reject("error creating meal" + err)
-                
+                reject("error creating meal" + err)            
             }
             else{
                 console.log("Successfully created new meal: " + newMeal.mealname)
-                resolve();
-               
+                resolve();              
             };
     })
     
@@ -71,7 +68,7 @@ module.exports.displayMeals = function(){
         .then((returnedMeal)=>{
             resolve(returnedMeal.map(item=>item.toObject()));
         }).catch((err)=>{
-                console.log("Error getting Meals:"+err);
+                console.log("Error getting meals:"+err);
                 reject(err);
         });
     });
@@ -81,8 +78,10 @@ module.exports.getMealbyName = function(inmealname){
         Meal.find({mealname: inmealname}) 
         .exec() 
         .then((returnedMeal)=>{
-            if(returnedMeal.length !=0 )
+            if(returnedMeal.length !=0 ){
                 resolve(returnedMeal.map(item=>item.toObject()));
+                console.log("Meal found: "+ returnedMeal);
+            }
             else
                 reject("No Meal found");
         }).catch((err)=>{
@@ -110,7 +109,7 @@ module.exports.registerUser = function(data){
                 
             }
             else{
-                resolve();
+                resolve(newUser);
                
             }
         });
@@ -125,8 +124,7 @@ module.exports.registerUser = function(data){
 }
 
 module.exports.LoginUserEmail = function(inEmail){
-    return new Promise((resolve,reject)=>{
-        
+    return new Promise((resolve,reject)=>{     
         User.find({email: inEmail}) 
         .exec()
         .then((returnedUser)=>{
@@ -185,3 +183,57 @@ module.exports.editMeal = (editMeal)=>{
         
     });
 }
+
+module.exports.getMealItem = function(inmealname){
+    return new Promise((resolve,reject)=>{
+        Meal.find({mealname: inmealname}) 
+        .exec() 
+        .then((returnedMeal)=>{
+            if(returnedMeal.length !=0 ){
+                resolve(returnedMeal[0]);
+                console.log("Meal found: "+ returnedMeal);
+            }
+            else
+                reject("No Meal found");
+        }).catch((err)=>{
+                console.log("Error Retriving Meal:"+err);
+                reject(err);
+        });
+    });
+}
+
+//CART FUNCTIONS
+var shoppingcart = [];
+module.exports.addtoCart = (inItem)=>{
+    return new Promise((resolve,reject)=>{
+        shoppingcart.push(inItem);
+        resolve(shoppingcart.length);
+    });
+}
+
+module.exports.getCart = ()=>{
+    return new Promise((resolve, reject)=>{
+            resolve(shoppingcart);
+    });
+}
+module.exports.placeorder = ()=>{
+    return new Promise((resolve, reject)=>{
+        var price=0;
+        if(shoppingcart){
+            shoppingcart.forEach(i => {
+                price += i.mealprice;
+            });
+        }
+        console.log("Order has been placed");
+        resolve(price);
+    });
+}
+module.exports.clearCart = ()=>{
+    return new Promise((resolve, reject)=>{
+        shoppingcart.length = 0;
+        console.log("Cart is now cleared");
+        resolve();
+    });
+}
+
+

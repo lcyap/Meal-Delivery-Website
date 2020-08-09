@@ -1,0 +1,43 @@
+ 
+  
+
+ <div class="container" >
+   <div class="row"><h1>Your Shopping Cart</h1></div>
+     <div class="row">
+       <div class="col-md-3">
+        </div>
+        <div class="col-md-3">
+           <h5>Product</h5>
+        </div>
+        <div class="col-md-3">
+           <h5>Price</h5>
+        </div>     
+      </div>
+        <hr>
+ {{#each data.cart}}
+ <div class="row">
+     <div class="col-md-3">
+       <img class="img-fluid" src={{{img}}} >
+     </div>
+     <div class="col-md-3">
+       <h4>{{mealname}}</h4>
+      </div>
+     <div class="col-md-3">
+       <h4>${{mealprice}}</h4>
+     </div>              
+</div>
+        <hr>
+ {{else}}
+   <div class="row">
+     <div><h4>Cart is Empty</h4></div>
+            </div>
+        {{/each}}
+        
+        <h2 class="total" style="color: red;">Total: ${{data.sum}}</h2>
+        <a href="/placeorder" class="btn btn-primary">Place Order</a>
+        <hr>
+        
+        </div>
+ 
+                
+ 

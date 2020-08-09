@@ -10,7 +10,7 @@
         Category: {{mealcategory}}<br>
         Meals Included: {{mealnumber}}<br>
         {{mealdescription}}<br>
-        Top Meal? {{#if topmeal}} Yes {{else}} No {{/if}}
+         {{#if topmeal}} <p style="color:brown"><strong>TOP MEAL</strong></p>{{/if}}
         <a href = "/edit?mealname={{mealname}}" class="btn btn-primary">Edit Meal</a>
     {{/each}}
   </div>

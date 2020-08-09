@@ -1,3 +1,104 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NOODELIVERY - Noodles Delivered to you</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Quicksand&family=Sedgwick+Ave&display=swap');
+    </style>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+    </style>
+    <!--BOOTSTRAP CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  
+  <!--AJAX A5............................................................................-->
+  <script>
+   function AJAXreq(method, url, data){ 
+       fetch(url, { 
+          method: method,
+           body: JSON.stringify(data),
+          headers: { 'Content-Type': 'application/json'} 
+          })
+          .then(response => response.json())
+          .then(json => {
+           $("i.fa-shopping-cart").text(`${json.data}`);
+           }).catch((err)=>{
+           console.log("Error Fetching");
+           alert(err.message);
+           }); 
+            }
+            
+    function addToCart(data){
+    AJAXreq("POST", "/addProduct", {mealname: data});            
+    }
+         
+ </script>    
+<!--AJAX A5 END!!............................................................................-->
+
+  </head>
+  <body>
+<!--HEADER NAV BAR-->
+<nav class="navbar navbar-expand-sm sticky-top">
+  <div class="container">
+  <div class="logo"> 
+    <a  href="/">
+    <img src="logo.png">
+  </a>
+  </div>
+  
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-controls="navb" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon">
+       <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+  <div id="navb" class="navbar-collapse collapse hide">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/meals">Meal Packages</a>
+      </li>
+      {{#if session}}
+        
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard">Customer Dashboard</a>
+      </li>
+      {{/if}}
+    </ul>
+
+    <ul class="nav navbar-nav ml-auto" >
+      <li class="nav-item">
+        <a class="nav-link" href="/register" style="font-size: medium;"><span class="fas fa-user"></span> Sign Up</a>
+      </li>
+      {{#if session}}
+      <li class="nav-item">
+        <a  href="/logout" class="nav-link" style="font-size: medium;"><span class="fas fa-sign-in-alt"></span> Logout</a>
+      </li>
+      <li class="nav-item">
+        <a  href="/cart" class="nav-link" style="font-size: medium;"><i class="fas fa-shopping-cart"></i>Your Cart</a>
+      </li>
+      {{else}}
+      <li class="nav-item">
+        <a  href="/login" class="nav-link" style="font-size: medium;"><span class="fas fa-sign-in-alt"></span> Login</a>
+      </li>
+      {{/if}}
+    </ul>
+  </div>
+  </div>
+</nav>
+ <body>
+ <!--................................-->   
+ 
  <div class="hero-image2">
   <div class="hero-text">
     <h1>OUR MEAL PACKAGES</h1>
@@ -8,23 +109,68 @@
  <div class="container">
      
 <div class="row">
-    {{#grouped_each 1 data}}
+{{#if session}}
+{{#each data}} 
   <div class="col-md-3 item">
-    {{#each this }}
      <img class="rounded-circle" src={{{img}}}  style="width:80%;"><br>
         <strong>{{mealname}}</strong><br>
         Price: CA${{mealprice}}<br>
         Category: {{mealcategory}}<br>
         Meals Included: {{mealnumber}}<br>
         {{mealdescription}}<br>
-       {{#if topmeal}} <p style="color:brown"><strong>TOP MEAL</strong></p>{{/if}}
-    {{/each}}
+       {{#if topmeal}} <p style="color:brown"><strong>TOP MEAL</strong></p>{{/if}} 
+       <button type="button" class="btn btn-primary" onclick='addToCart("{{mealname}}")'>Add to Cart</button>
   </div>
-{{/grouped_each}}
+{{/each}}
+{{else}}
+{{#each data}} 
+  <div class="col-md-3 item">
+     <img class="rounded-circle" src={{{img}}}  style="width:80%;"><br>
+        <strong>{{mealname}}</strong><br>
+        Price: CA${{mealprice}}<br>
+        Category: {{mealcategory}}<br>
+        Meals Included: {{mealnumber}}<br>
+        {{mealdescription}}<br>
+       {{#if topmeal}} <p style="color:brown"><strong>TOP MEAL</strong></p>{{/if}} 
+       
+  </div>
+{{/each}}
+{{/if}}
 </div>
 
    
  </div>
                 
-    
-     
+ <!--................................-->   
+</body>     
+<footer class="page-footer font-small mdb-color pt-4">
+  <div class="container text-center text-md-left">
+    <div class="row text-center text-md-left mt-3 pb-3">
+      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">NOODELIVERY</h6>
+        <p>Our meals are not real but we hope to make it real someday. Thank you for your support and we will see you in the future!</p>
+      </div>
+      <hr class="w-100 clearfix d-md-none">
+      <hr class="w-100 clearfix d-md-none">
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h6 class="text-uppercase mb-4 font-weight-bold">Contact Us</h6>
+        <p>
+          <i class="fas fa-envelope mr-3"></i>lcyap@myseneca.ca</p>
+        <p>
+          <i class="fas fa-phone mr-3"></i>+1234567</p>      
+      </div>
+    </div>
+    <hr>
+    <div class="row d-flex align-items-center">
+      <div class="col-md-7 col-lg-8">
+        <p class="text-center text-md-left">Thank you for visiting my site!
+            <strong> Lea Yap 073056111</strong>
+          </a>
+        </p>
+      </div>
+      <div class="col-md-5 col-lg-4 ml-lg-0">
+      </div>
+    </div>
+  </div>
+</footer>
+</html>
