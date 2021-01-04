@@ -1,0 +1,28 @@
+<div class="container">
+
+  <!-- Portfolio Item Heading -->
+  <h1 class="my-4">Page Heading
+    <small>Secondary Text</small>
+  </h1>
+
+  <!-- Portfolio Item Row -->
+  <div class="row">
+
+    <div class="col-md-6">
+      <img class="img-fluid" src="{{data.img}}" alt="">
+    </div>
+
+    <div class="col-md-6">
+      <h3 class="my-3">{{data.mealname}}</h3>
+      <p>{{data.mealdescription}}</p>
+      <h3 class="my-3">Meal Details</h3>
+      <ul>
+        <li>Price: {{data.mealprice}}</li>
+        <li>Number of Meals: {{data.mealnumber}}</li>
+        <button  type="button" onclick='addToCart("{{data.mealname}}")'>Add to Cart</button>
+      </ul>
+      
+    </div>
+
+  </div>
+  </div>
