@@ -1,5 +1,4 @@
-//Lea Odina
-//073056111
+
 
 //HEROKU LINK
 //https://floating-atoll-61832.herokuapp.com/
@@ -7,9 +6,6 @@
 //GITHUB LINK
 //https://github.com/lcyap/WEB322--Final-Assignment
 
-//Data Entry Admin Info
-//email: noodeliverapp@gmail.com
-//password: password
 
 //all images are taken from unsplash.com
 
@@ -152,7 +148,7 @@ app.get("/admindashboard",ensureAdmin, (req,res)=>{
 //A3 ADMIN DETAILS
 const dataManager = {
   email: "noodeliveryapp@gmail.com",
-  password: "password"
+  password: 
 }
 //form login
 app.post("/loginform", (req, res) =>{
@@ -200,7 +196,7 @@ app.post("/registerform", (req, res) =>{
         service: 'gmail',
         auth: {
             user: 'noodeliveryapp@gmail.com',
-            pass: 'Noodles1.'
+            pass: ''
         }
       });
       
