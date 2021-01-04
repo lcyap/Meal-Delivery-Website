@@ -148,7 +148,7 @@ app.get("/admindashboard",ensureAdmin, (req,res)=>{
 //A3 ADMIN DETAILS
 const dataManager = {
   email: "noodeliveryapp@gmail.com",
-  password: 
+  password: 12345
 }
 //form login
 app.post("/loginform", (req, res) =>{
